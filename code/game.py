@@ -14,7 +14,7 @@ class Game:
             menu.run()
             pass
 
-            # >>>>>>>>AULA 2: 22:34
+
             # Check for all events
             # for event in pygame.event.get():
             #     if event.type == pygame.QUIT:
