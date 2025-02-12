@@ -15,7 +15,7 @@ class Game:
             menu = Menu(self.window)
             menu_return = menu.run()
 
-            # ATRIBUINDO FUNCOESS AO MENU
+            # ATRIBUINDO FUNCOES AO MENU
             if menu_return in [MENU_OPTION[0], MENU_OPTION[1], MENU_OPTION[2]]:
                 level = Level(self.window, 'level1', menu_return)
                 level_return = level.run()
@@ -28,4 +28,4 @@ class Game:
 
 
 
-            # AULA 3 -->> 1:00
+            # AULA 4 --- 21:27
