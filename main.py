@@ -3,6 +3,6 @@ from code.game import Game
 game = Game()
 game.run()
 
-# %%%%%%%%% AULA PRATICA 6 - 51:30 %%%%%%%%%%%
+# %%%%%%%%% AULA PRATICA 7 - 25:40 %%%%%%%%%%%
 
 # Ctrl + Alt + L == identação
