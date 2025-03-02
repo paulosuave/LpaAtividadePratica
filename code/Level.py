@@ -41,13 +41,16 @@ class Level:
         pygame.mixer_music.play(-1)
         clock = pygame.time.Clock()
 
-        while True:
+        running = True  # Variável para controlar o loop principal
+
+        while running:
             clock.tick(60)
+            self.window.fill((0, 0, 0))  # Limpa a tela
             for ent in self.entity_list:
                 self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
 
-                # VERIFICAR JOGADOR QUEM VAI ATIRAR
+                # VERIFICAR JOGADOR QUE VAI ATIRAR
                 if isinstance(ent, (Player, Enemy)):
                     shoot = ent.shoot()
                     if shoot is not None:
@@ -55,18 +58,13 @@ class Level:
 
                 # PRINT SCORE
                 if ent.name == 'Player1':
-                    self.level_text(20, f'Player1 - Health:{ent.health} '
+                    self.level_text(20, f'Player1 - LIFE:{ent.health} '
                                         f'| SCORE: {ent.score}', COLOR_GREEN2, (320, 7))
                 if ent.name == 'Player2':
-                    self.level_text(20, f'Player2 - Health:{ent.health} '
+                    self.level_text(20, f'Player2 - LIFE:{ent.health} '
                                         f'| SCORE: {ent.score}', COLOR_CYAN, (320, 20))
 
-                # if ent.name == 'Player1':
-                #     self.level_text(14, f'Player1 - Health:{ent.health}', COLOR_GREEN2, (10, 25))
-                # if ent.name == 'Player2':
-                #     self.level_text(14, f'Player2 - Health:{ent.health}', COLOR_CYAN, (10, 45))
-
-                # FECHAR JANELA
+            # VERIFICAR EVENTOS
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -88,15 +86,14 @@ class Level:
                                 player_score[1] = ent.score
                         return True
 
-                # FINALIZAR JOGO SE O PLAYER PERDER
-                found_player = False
-                for ent in self.entity_list:
-                    if isinstance(ent, Player):
-                        found_player = True
-                if not found_player:
-                    return False
+            # VERIFICAR SE O PLAYER ESTÁ VIVO
+            found_player = any(isinstance(ent, Player) for ent in self.entity_list)
 
-            #  IMPRESSÃO DE INFORMAÇÕES NA TELA
+            if not found_player:
+                self.show_game_over_screen()  # Exibir GAME OVER
+                running = False  # Parar o loop
+
+            # IMPRESSÃO DE INFORMAÇÕES NA TELA
             self.level_text(20, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', COLOR_WHITE, (10, 5))
             self.level_text(20, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
             self.level_text(20, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
@@ -104,6 +101,38 @@ class Level:
 
             EntityMediator.verify_collision(entity_list=self.entity_list)
             EntityMediator.verify_health(entity_list=self.entity_list)
+
+    # GAME OVER
+    def show_game_over_screen(self):
+        game_over_image = pygame.image.load("./asset/gameOverBg.png")
+        game_over_image = pygame.transform.scale(game_over_image, (self.window.get_width(), self.window.get_height()))
+
+        pygame.mixer_music.stop()  # Para a música atual
+        pygame.mixer.Sound("./asset/gameOver.mp3").play()
+
+        self.window.blit(game_over_image, (0, 0))  # Desenha a imagem de Game Over
+
+        self.level_text(30, "Pressione ESC para sair", COLOR_WHITE, (WIN_HEIGHT // 2 - 50, WIN_HEIGHT - 100))
+        pygame.display.flip()
+
+        # Aguarda ESC para sair
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    waiting = False
+
+            #  IMPRESSÃO DE INFORMAÇÕES NA TELA
+            # self.level_text(20, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', COLOR_WHITE, (10, 5))
+            # self.level_text(20, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
+            # self.level_text(20, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
+            # pygame.display.flip()
+            #
+            # EntityMediator.verify_collision(entity_list=self.entity_list)
+            # EntityMediator.verify_health(entity_list=self.entity_list)
 
     # FORMATAÇÃO DO TEXTO
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
