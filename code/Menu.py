@@ -5,7 +5,8 @@ import pygame.image
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import WIN_WIDTH, COLOR_ORANGE, COLOR_GREEN, MENU_OPTION, COLOR_YELLOW, COLOR_WHITE, COLOR_YELLOW2
+from code.Const import WIN_WIDTH, COLOR_ORANGE, COLOR_GREEN, MENU_OPTION, COLOR_YELLOW, COLOR_WHITE, COLOR_YELLOW2, \
+    COLOR_BLACK
 
 
 class Menu:
@@ -23,15 +24,15 @@ class Menu:
         while True:
             # PARAMETROS DE IMAGEM E TEXTO
             self.window.blit(source=self.surf, dest=self.rect)
-            self.menu_text(50, "Mountain", COLOR_GREEN, text_center_pos=((WIN_WIDTH / 2), 50))
-            self.menu_text(50, "shooter", COLOR_ORANGE, text_center_pos=((WIN_WIDTH / 2), 80))
+            self.menu_text(50, "WORLD", COLOR_GREEN, text_center_pos=((WIN_WIDTH / 2), 40))
+            self.menu_text(50, "WAR", COLOR_ORANGE, text_center_pos=((WIN_WIDTH / 2), 70))
             # pygame.display.flip()
 
             for i in range(len(MENU_OPTION)):
                 if i == menu_option:
-                    self.menu_text(20, MENU_OPTION[i], COLOR_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
+                    self.menu_text(25, MENU_OPTION[i], COLOR_WHITE, ((WIN_WIDTH / 2), 200 + 25 * i))
                 else:
-                    self.menu_text(20, MENU_OPTION[i], COLOR_YELLOW2, ((WIN_WIDTH / 2), 200 + 25 * i))
+                    self.menu_text(25, MENU_OPTION[i], COLOR_BLACK, ((WIN_WIDTH / 2), 200 + 25 * i))
 
             pygame.display.flip()
 
