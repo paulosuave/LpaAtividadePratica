@@ -58,10 +58,10 @@ class Level:
 
                 # PRINT SCORE
                 if ent.name == 'Player1':
-                    self.level_text(20, f'Player1 - LIFE:{ent.health} '
+                    self.level_text(14, f'Player1 - LIFE:{ent.health} '
                                         f'| SCORE: {ent.score}', COLOR_GREEN2, (320, 7))
                 if ent.name == 'Player2':
-                    self.level_text(20, f'Player2 - LIFE:{ent.health} '
+                    self.level_text(14, f'Player2 - LIFE:{ent.health} '
                                         f'| SCORE: {ent.score}', COLOR_CYAN, (320, 20))
 
             # VERIFICAR EVENTOS
@@ -94,9 +94,9 @@ class Level:
                 running = False  # Parar o loop
 
             # IMPRESSÃO DE INFORMAÇÕES NA TELA
-            self.level_text(20, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', COLOR_WHITE, (10, 5))
-            self.level_text(20, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
-            self.level_text(20, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
+            self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', COLOR_WHITE, (10, 5))
+            self.level_text(14, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
+            self.level_text(14, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
             pygame.display.flip()
 
             EntityMediator.verify_collision(entity_list=self.entity_list)
@@ -112,7 +112,7 @@ class Level:
 
         self.window.blit(game_over_image, (0, 0))  # Desenha a imagem de Game Over
 
-        self.level_text(30, "Pressione ESC para sair", COLOR_WHITE, (WIN_HEIGHT // 2 - 50, WIN_HEIGHT - 100))
+        self.level_text(15, "Pressione ESC para sair", COLOR_WHITE, (WIN_HEIGHT // 2 - 50, WIN_HEIGHT - 100))
         pygame.display.flip()
 
         # Aguarda ESC para sair
